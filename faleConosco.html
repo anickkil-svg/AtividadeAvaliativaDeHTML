@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ALTERE AQUI o título que aparece na aba do navegador. -->
+  <title>Fale conosco | Truck Shopping</title>
+
+  <!-- BOOTSTRAP: utiliza a mesma versão da página inicial e do cadastro. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS PRÓPRIO: estilos exclusivos da página de contato. -->
+  <style>
+    body {
+      background: var(--bs-tertiary-bg);
+    }
+
+    /* Cartões principais da página. */
+    .contato-card {
+      border: 0;
+      border-radius: 16px;
+    }
+
+    /* Ícones ilustrativos das informações de contato. */
+    .contato-icone {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--bs-secondary-bg);
+      font-size: 1.35rem;
+    }
+
+    /* Ajuste visual dos campos do formulário. */
+    .form-control,
+    .form-select {
+      padding:  .75rem;
+    }
+
+    /* Deixa o botão de envio mais destacado. */
+    .btn-enviar {
+      min-width: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER: mantém o mesmo cabeçalho utilizado na página de cadastro. -->
+  <header class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <!-- Ao clicar na marca, o usuário retorna para a página inicial. -->
+      <a class="navbar-brand fw-bold" href="index.html">▣ Truck Shopping</a>
+
+      <!-- Botão para voltar aos anúncios. -->
+      <a class="btn btn-outline-light btn-sm" href="index.html">Voltar aos anúncios</a>
+    </div>
+  </header>
+
+  <!-- MAIN: conteúdo principal da página Fale Conosco. -->
+  <main class="container py-5">
+
+    <!-- TÍTULO: apresentação da página. -->
+    <div class="text-center mb-5">
+      <h1 class="fw-bold">Fale conosco</h1>
+      <p class="text-body-secondary lead mb-0">
+        Tem alguma dúvida, sugestão ou precisa de ajuda? Estamos aqui para ouvir você.
+      </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+      <!-- COLUNA 1: formulário para o visitante enviar uma mensagem. -->
+      <div class="col-lg-7">
+        <div class="card contato-card shadow-sm h-100">
+          <div class="card-body p-4 p-md-5">
+
+            <h2 class="h4 fw-bold mb-2">Envie sua mensagem</h2>
+            <p class="text-body-secondary mb-4">
+              Preencha os campos abaixo. Todos os campos marcados com * são obrigatórios.
+            </p>
+
+            <!-- FORMULÁRIO: os dados são validados no próprio navegador. -->
+            <form id="formContato" class="row g-3">
+
+              <!-- CAMPO: nome completo de quem está entrando em contato. -->
+              <div class="col-12">
+                <label for="nome" class="form-label">Nome completo *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nome"
+                  placeholder="Digite seu nome"
+                  maxlength="100"
+                  autocomplete="name"
+                  required>
+              </div>
+
+              <!-- CAMPO: e-mail para possibilitar uma resposta. -->
+              <div class="col-12">
+                <label for="email" class="form-label">E-mail *</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="exemplo@email.com"
+                  maxlength="150"
+                  autocomplete="email"
+                  required>
+              </div>
+
+              <!-- CAMPO: assunto para identificar o motivo do contato. -->
+              <div class="col-12">
+                <label for="assunto" class="form-label">Assunto *</label>
+                <select id="assunto" class="form-select" required>
+                  <option value="">Selecione o assunto</option>
+                  <option>Dúvidas sobre anúncios</option>
+                  <option>Problemas no cadastro de caminhão</option>
+                  <option>Compra de caminhão</option>
+                  <option>Venda de caminhão</option>
+                  <option>Parcerias e sugestões</option>
+                  <option>Outros assuntos</option>
+                </select>
+              </div>
+
+              <!-- CAMPO: mensagem que o visitante deseja enviar. -->
+              <div class="col-12">
+                <label for="mensagem" class="form-label">Mensagem *</label>
+                <textarea
+                  id="mensagem"
+                  class="form-control"
+                  rows="5"
+                  maxlength="2000"
+                  placeholder="Escreva sua mensagem..."
+                  required></textarea>
+                <div class="form-text">Máximo de 2.000 caracteres.</div>
+              </div>
+
+              <!-- ÁREA: exibe o resultado da validação do formulário. -->
+              <div class="col-12">
+                <div id="retornoFormulario" role="status" aria-live="polite"></div>
+              </div>
+
+              <!-- BOTÃO: valida os campos e apresenta o retorno ao visitante. -->
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary btn-enviar px-4">
+                  Enviar mensagem
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUNA 2: informações gerais e orientações de atendimento. -->
+      <div class="col-lg-5">
+        <div class="card contato-card shadow-sm h-100">
+          <div class="card-body p-4 p-md-5">
+
+            <h2 class="h4 fw-bold mb-4">Como podemos ajudar?</h2>
+
+            <!-- INFORMAÇÃO 1: dúvidas gerais sobre o marketplace. -->
+            <div class="d-flex gap-3 mb-4">
+              <div class="contato-icone" aria-hidden="true">🚛</div>
+              <div>
+                <h3 class="h6 fw-bold mb-1">Compra e venda</h3>
+                <p class="text-body-secondary mb-0">
+                  Tem dúvidas sobre os anúncios ou sobre como anunciar seu caminhão?
+                  Entre em contato pelo formulário.
+                </p>
+              </div>
+            </div>
+
+            <!-- INFORMAÇÃO 2: ajuda com dificuldades no site. -->
+            <div class="d-flex gap-3 mb-4">
+              <div class="contato-icone" aria-hidden="true">💬</div>
+              <div>
+                <h3 class="h6 fw-bold mb-1">Suporte</h3>
+                <p class="text-body-secondary mb-0">
+                  Encontrou algum problema ao navegar pelo site ou cadastrar um anúncio?
+                  Conte para nós.
+                </p>
+              </div>
+            </div>
+
+            <!-- INFORMAÇÃO 3: sugestões de melhoria. -->
+            <div class="d-flex gap-3 mb-4">
+              <div class="contato-icone" aria-hidden="true">💡</div>
+              <div>
+                <h3 class="h6 fw-bold mb-1">Sugestões</h3>
+                <p class="text-body-secondary mb-0">
+                  Sua opinião pode ajudar a melhorar a experiência do Truck Shopping.
+                </p>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- AVISO: personalize esta área quando houver canais reais de atendimento. -->
+            <h3 class="h6 fw-bold">Informações de atendimento</h3>
+            <p class="text-body-secondary small mb-0">
+              Utilize o formulário para registrar sua dúvida, solicitação ou sugestão.
+              Os canais e horários oficiais de atendimento poderão ser adicionados aqui.
+            </p>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RODAPÉ: aviso sobre o funcionamento desta versão demonstrativa. -->
+    <p class="text-center text-body-secondary small mt-4 mb-0">
+      Truck Shopping — Conectando pessoas e oportunidades no mercado de caminhões.
+    </p>
+
+  </main>
+
+  <!-- JAVASCRIPT: valida o formulário no navegador. -->
+  <script>
+    const formContato = document.getElementById('formContato');
+    const retornoFormulario = document.getElementById('retornoFormulario');
+
+    // ENVIO: impede o recarregamento da página e verifica os campos obrigatórios.
+    formContato.addEventListener('submit', function(evento) {
+      evento.preventDefault();
+
+      // VALIDAÇÃO: utiliza as regras required e type=email do próprio HTML.
+      if (!formContato.reportValidity()) {
+        return;
+      }
+
+      // AVISO: esta página ainda não possui servidor ou serviço de envio conectado.
+      // Por isso, a mensagem NÃO é enviada nem armazenada.
+      retornoFormulario.className = 'alert alert-info mb-0';
+      retornoFormulario.textContent =
+        'Formulário preenchido corretamente! Esta é uma versão demonstrativa: o envio real de mensagens ainda precisa ser configurado.';
+
+      // Limpa os campos depois da validação demonstrativa.
+      formContato.reset();
+    });
+  </script>
+</body>
+</html>

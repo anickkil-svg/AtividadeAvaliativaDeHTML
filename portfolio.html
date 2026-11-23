@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ALTERE AQUI o título que aparece na aba do navegador. -->
+  <title>Portfólio | Truck Shopping</title>
+
+  <!-- BOOTSTRAP: mesma versão utilizada nas outras páginas do projeto. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS PRÓPRIO: estilos da galeria de fotos. -->
+  <style>
+    body {
+      background: var(--bs-body-bg);
+    }
+
+    /* Faixa de apresentação do portfólio. */
+    .portfolio-hero {
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, .82), rgba(0, 0, 0, .28)),
+        url("https://images.unsplash.com/photo-1720127601642-7c3a7ba88f5f?auto=format&fit=crop&w=1800&q=85")
+        center 48% / cover no-repeat;
+      color: #fff;
+      min-height: 310px;
+      display: flex;
+      align-items: center;
+    }
+
+    .portfolio-hero .container {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    /* Cartão que envolve cada fotografia. */
+    .foto-card {
+      border: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--bs-tertiary-bg);
+      height: 100%;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .foto-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, .13);
+    }
+
+    /* Imagens padronizadas para deixar o álbum organizado. */
+    .foto-card img {
+      width: 100%;
+      height: 235px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform .3s ease;
+    }
+
+    .foto-card:hover img {
+      transform: scale(1.035);
+    }
+
+    .foto-legenda {
+      padding: 1rem 1.1rem;
+    }
+
+    .foto-legenda p {
+      margin-bottom: 0;
+    }
+
+    /* Botões de filtro da galeria. */
+    .filtro-foto.active {
+      color: #fff;
+      background-color: var(--bs-primary);
+      border-color: var(--bs-primary);
+    }
+
+    /* Mantém o tamanho da foto quando aberta em destaque. */
+    .imagem-modal {
+      display: block;
+      width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #111;
+    }
+
+    .portfolio-rodape {
+      background: var(--bs-tertiary-bg);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER: identidade visual e navegação do Truck Shopping. -->
+  <header class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <!-- LOGO: clique para retornar à página inicial. -->
+      <a class="navbar-brand fw-bold" href="index.html">▣ Truck Shopping</a>
+
+      <!-- LINKS: atalhos para as outras páginas do projeto. -->
+      <nav class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="index.html">Início</a>
+        <a class="btn btn-outline-light btn-sm" href="faleConosco.html">Fale conosco</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO: apresentação visual do álbum de fotos. -->
+  <section class="portfolio-hero">
+    <div class="container">
+      <span class="badge text-bg-warning mb-3">TRUCK SHOPPING</span>
+      <h1 class="display-4 fw-bold">Nosso portfólio</h1>
+      <p class="lead col-lg-7 mb-0">
+        Um espaço para apreciar máquinas, estradas e o universo do transporte pesado.
+        Confira nossa galeria de caminhões.
+      </p>
+    </div>
+  </section>
+
+  <!-- MAIN: área principal da galeria. -->
+  <main class="container py-5">
+
+    <!-- CABEÇALHO DA GALERIA. -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Galeria de caminhões</h2>
+        <p class="text-body-secondary mb-0">
+          Fotografias ilustrativas para apresentar o mundo Truck Shopping.
+        </p>
+      </div>
+
+      <!-- CONTADOR: atualizado automaticamente conforme o filtro escolhido. -->
+      <span class="small text-body-secondary" id="contadorFotos">6 fotografias</span>
+    </div>
+
+    <!-- FILTROS: clique para mostrar apenas uma categoria de fotos. -->
+    <div class="d-flex flex-wrap gap-2 mb-4" aria-label="Filtros da galeria">
+      <button type="button" class="btn btn-primary filtro-foto active" data-filtro="todos" aria-pressed="true">Todas</button>
+      <button type="button" class="btn btn-outline-primary filtro-foto" data-filtro="estrada" aria-pressed="false">Na estrada</button>
+      <button type="button" class="btn btn-outline-primary filtro-foto" data-filtro="paisagem" aria-pressed="false">Paisagens</button>
+      <button type="button" class="btn btn-outline-primary filtro-foto" data-filtro="caminhoes" aria-pressed="false">Caminhões</button>
+    </div>
+
+    <!-- GALERIA: adicione novos cartões copiando um bloco .col com .foto-card. -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" id="galeriaFotos">
+
+      <!-- FOTO 1: altere src, alt, categoria, título e descrição para trocar esta fotografia. -->
+      <div class="col item-foto" data-categoria="estrada">
+        <article class="card foto-card shadow-sm">
+          <img
+            src="https://images.unsplash.com/photo-1720127601642-7c3a7ba88f5f?auto=format&fit=crop&w=1000&q=85"
+            alt="Caminhão pesado viajando por uma rodovia"
+            loading="lazy"
+            data-titulo="Força na estrada"
+            data-descricao="O transporte rodoviário conecta cidades, empresas e pessoas.">
+          <div class="foto-legenda">
+            <h3 class="h5 fw-bold">Força na estrada</h3>
+            <p class="text-body-secondary small">A rotina de quem movimenta o Brasil.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- FOTO 2: altere src, alt, categoria, título e descrição para trocar esta fotografia. -->
+      <div class="col item-foto" data-categoria="caminhoes">
+        <article class="card foto-card shadow-sm">
+          <img
+            src="https://images.unsplash.com/photo-1766785368863-f2188a8c8b32?auto=format&fit=crop&w=1000&q=85"
+            alt="Dois caminhões trafegando por uma rodovia"
+            loading="lazy"
+            data-titulo="Parceiros de viagem"
+            data-descricao="Caminhões que cruzam estradas e enfrentam longas jornadas.">
+          <div class="foto-legenda">
+            <h3 class="h5 fw-bold">Parceiros de viagem</h3>
+            <p class="text-body-secondary small">Potência e companheirismo nas rodovias.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- FOTO 3: altere src, alt, categoria, título e descrição para trocar esta fotografia. -->
+      <div class="col item-foto" data-categoria="paisagem">
+        <article class="card foto-card shadow-sm">
+          <img
+            src="https://images.unsplash.com/photo-1773438791088-9d5c2d5663cf?auto=format&fit=crop&w=1000&q=85"
+            alt="Caminhão em uma rodovia cercada por montanhas"
+            loading="lazy"
+            data-titulo="Caminhos e paisagens"
+            data-descricao="A estrada também revela paisagens que fazem parte da jornada.">
+          <div class="foto-legenda">
+            <h3 class="h5 fw-bold">Caminhos e paisagens</h3>
+            <p class="text-body-secondary small">Cada viagem tem uma história.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- FOTO 4: altere src, alt, categoria, título e descrição para trocar esta fotografia. -->
+      <div class="col item-foto" data-categoria="estrada">
+        <article class="card foto-card shadow-sm">
+          <img
+            src="https://images.unsplash.com/photo-1710331872206-7d9e5aa2bf42?auto=format&fit=crop&w=1000&q=85"
+            alt="Caminhão percorrendo uma estrada próxima a uma floresta"
+            loading="lazy"
+            data-titulo="Estradas pelo mundo"
+            data-descricao="O transporte pesado está presente em diferentes cenários e rotas.">
+          <div class="foto-legenda">
+            <h3 class="h5 fw-bold">Estradas pelo mundo</h3>
+            <p class="text-body-secondary small">Conectando destinos e oportunidades.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- FOTO 5: altere src, alt, categoria, título e descrição para trocar esta fotografia. -->
+      <div class="col item-foto" data-categoria="caminhoes">
+        <article class="card foto-card shadow-sm">
+          <img
+            src="https://images.unsplash.com/photo-1779583074717-e60fa13131ce?auto=format&fit=crop&w=1000&q=85"
+            alt="Caminhão verde transportando carga em uma rodovia"
+            loading="lazy"
+            data-titulo="Máquinas em movimento"
+            data-descricao="Veículos pesados preparados para transportar diferentes cargas.">
+          <div class="foto-legenda">
+            <h3 class="h5 fw-bold">Máquinas em movimento</h3>
+            <p class="text-body-secondary small">Tecnologia, potência e transporte.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- FOTO 6: altere src, alt, categoria, título e descrição para trocar esta fotografia. -->
+      <div class="col item-foto" data-categoria="paisagem">
+        <article class="card foto-card shadow-sm">
+          <img
+            src="https://img.foodlogistics.com/files/base/acbm/fl/image/2020/04/matthew_t_rader_1shWwOrkxEM_unsplash.5ea2059dd5fc8.png?auto=format%2Ccompress&q=70&rect=153%2C0%2C1272%2C1272"
+            alt="Caminhão vermelho em uma estrada aberta"
+            loading="lazy"
+            data-titulo="Horizonte aberto"
+            data-descricao="A estrada representa movimento, trabalho e novas possibilidades.">
+          <div class="foto-legenda">
+            <h3 class="h5 fw-bold">Horizonte aberto</h3>
+            <p class="text-body-secondary small">Uma jornada de cada vez.</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+
+    <!-- AVISO: as fotografias são ilustrativas e podem ser substituídas por imagens próprias. -->
+    <p class="text-body-secondary small mt-4 mb-0">
+      *Galeria demonstrativa. As imagens são carregadas de fontes externas; é necessário estar conectado à internet.
+      Você pode substituir os endereços das imagens pelas fotografias dos caminhões do seu projeto.
+    </p>
+  </main>
+
+  <!-- MODAL: abre a fotografia em tamanho maior ao clicar nela. -->
+  <div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFotoTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title fs-5" id="modalFotoTitulo">Fotografia</h2>
+            <p class="small text-body-secondary mb-0" id="modalFotoDescricao"></p>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <img src="" alt="" class="imagem-modal" id="modalFotoImagem">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER: rodapé com atalhos para outras páginas do projeto. -->
+  <footer class="portfolio-rodape py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <span class="text-body-secondary small">© Truck Shopping — Projeto demonstrativo.</span>
+      <div class="d-flex gap-3">
+        <a href="index.html" class="link-secondary small">Página inicial</a>
+        <a href="faleConosco.html" class="link-secondary small">Fale conosco</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOOTSTRAP JS: necessário para abrir e fechar o modal de fotografias. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JAVASCRIPT: filtros da galeria e visualização ampliada das fotografias. -->
+  <script>
+    // FILTROS: seleciona os cartões que pertencem à categoria escolhida.
+    const botoesFiltro = document.querySelectorAll('.filtro-foto');
+    const itensFoto = document.querySelectorAll('.item-foto');
+    const contadorFotos = document.getElementById('contadorFotos');
+
+    botoesFiltro.forEach(botao => {
+      botao.addEventListener('click', () => {
+        const filtro = botao.dataset.filtro;
+        let quantidadeVisivel = 0;
+
+        // Atualiza a aparência dos botões para indicar o filtro selecionado.
+        botoesFiltro.forEach(item => {
+          const selecionado = item === botao;
+          item.classList.toggle('active', selecionado);
+          item.classList.toggle('btn-primary', selecionado);
+          item.classList.toggle('btn-outline-primary', !selecionado);
+          item.setAttribute('aria-pressed', selecionado ? 'true' : 'false');
+        });
+
+        // Mostra todos os cartões ou apenas os da categoria escolhida.
+        itensFoto.forEach(item => {
+          const categoria = item.dataset.categoria;
+          const mostrar = filtro === 'todos' || categoria === filtro;
+
+          item.classList.toggle('d-none', !mostrar);
+
+          if (mostrar) {
+            quantidadeVisivel++;
+          }
+        });
+
+        contadorFotos.textContent =
+          quantidadeVisivel + (quantidadeVisivel === 1 ? ' fotografia' : ' fotografias');
+      });
+    });
+
+    // MODAL: ao clicar em uma imagem, abre a versão ampliada.
+    const modalFoto = document.getElementById('modalFoto');
+    const modalFotoImagem = document.getElementById('modalFotoImagem');
+    const modalFotoTitulo = document.getElementById('modalFotoTitulo');
+    const modalFotoDescricao = document.getElementById('modalFotoDescricao');
+
+    document.querySelectorAll('.foto-card img').forEach(imagem => {
+      imagem.addEventListener('click', () => {
+        modalFotoImagem.src = imagem.src;
+        modalFotoImagem.alt = imagem.alt;
+        modalFotoTitulo.textContent = imagem.dataset.titulo || 'Fotografia';
+        modalFotoDescricao.textContent = imagem.dataset.descricao || '';
+
+        bootstrap.Modal.getOrCreateInstance(modalFoto).show();
+      });
+    });
+  </script>
+</body>
+</html>

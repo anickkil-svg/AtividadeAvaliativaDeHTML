@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="auto">
+<!-- HEAD: configurações, título da aba e arquivos de estilo. Não é o cabeçalho visível. -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+  <meta name="generator" content="Astro v5.13.2" />
+  <!-- ALTERE AQUI o texto da aba do navegador. -->
+  <title>Truck Shopping | Caminhões</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/" />
+  <!-- Script local de tema removido: implementação simples ao final do BODY. -->
+  <!-- BOOTSTRAP CSS: confira se esse caminho existe na pasta do projeto. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta name="theme-color" content="#712cf9" />
+  <!-- STYLE: CSS próprio. Altere cores, tamanhos e aparência aqui. -->
+  <style>
+    /* ESTILO das imagens de exemplo (placeholders). */
+
+    #curiosidades {
+      color: #0038f1;
+    }
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      width: 100%;
+      height: 3rem;
+      background-color: #0000001a;
+      border: solid rgba(0, 0, 0, 0.15);
+      border-width: 1px 0;
+      box-shadow:
+        inset 0 0.5em 1.5em #0000001a,
+        inset 0 0.125em 0.5em #00000026;
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -0.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ESTILO do botão que troca o tema claro/escuro. */
+    .btn-bd-primary {
+      --bd-violet-bg: #712cf9;
+      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+      --bs-btn-font-weight: 600;
+      --bs-btn-color: var(--bs-white);
+      --bs-btn-bg: var(--bd-violet-bg);
+      --bs-btn-border-color: var(--bd-violet-bg);
+      --bs-btn-hover-color: var(--bs-white);
+      --bs-btn-hover-bg: #6528e0;
+      --bs-btn-hover-border-color: #6528e0;
+      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+      --bs-btn-active-color: var(--bs-btn-hover-color);
+      --bs-btn-active-bg: #5a23c8;
+      --bs-btn-active-border-color: #5a23c8;
+    }
+
+    .bd-mode-toggle {
+      z-index: 1500;
+    }
+
+    .bd-mode-toggle .bi {
+      width: 1em;
+      height: 1em;
+    }
+
+    .bd-mode-toggle .dropdown-menu .active .bi {
+      display: block !important;
+    }
+
+    /* NOVO: aparência dos cartões de veículos no marketplace. */
+    .card-veiculo { overflow: hidden; border: 0; border-radius: 14px; }
+    .card-veiculo .card-img-top { height: 225px; object-fit: cover; }
+    .card-veiculo .card-body { display: flex; flex-direction: column; gap: 10px; }
+    .veiculo-categoria { color: #b76a09; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
+    .veiculo-ficha { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; font-size: .86rem; }
+    .veiculo-ficha span { padding: 8px; background: var(--bs-tertiary-bg); border-radius: 7px; }
+    .veiculo-preco { font-weight: 700; font-size: 1.15rem; margin: 0; }
+    /* NOVO: imagem da janela de detalhes; adapte a altura se desejar. */
+    .veiculo-modal-imagem { width: 100%; max-height: 330px; object-fit: cover; border-radius: 8px; }
+  </style>
+</head>
+<!-- BODY: começa tudo o que aparece na página. -->
+
+<body>
+  <!-- SELETOR DE TEMA: botões para escolher claro, escuro ou automático. -->
+  <!-- Os SVGs de ícones foram substituídos por símbolos de texto; não são fotos. -->
+  <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+    <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
+      aria-expanded="false" data-bs-toggle="dropdown" aria-label="Alternar tema">
+      <span aria-hidden="true">◐</span>
+      <span class="visually-hidden" id="bd-theme-text">Alternar tema</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+      <li><button type="button" class="dropdown-item" data-bs-theme-value="light" aria-pressed="false">☀ Claro</button>
+      </li>
+      <li><button type="button" class="dropdown-item" data-bs-theme-value="dark" aria-pressed="false">☾ Escuro</button>
+      </li>
+      <li><button type="button" class="dropdown-item active" data-bs-theme-value="auto" aria-pressed="true">◐
+          Automático</button></li>
+    </ul>
+  </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <!-- ÍCONE DO CABEÇALHO: substitua por uma logo se quiser. -->
+          <span aria-hidden="true" class="me-2">▣</span>
+          <!-- ALTERE AQUI o nome/logo em texto do cabeçalho. -->
+          <strong>Truck Shopping</strong>
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- MAIN: conteúdo principal do site. -->
+  <main>
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <!-- ALTERE AQUI o título principal da página. -->
+          <h1 class="fw-light">Truck Shopping</h1>
+          <!-- ALTERE AQUI a descrição abaixo do título. -->
+          <p class="lead text-body-secondary">
+            O marketplace para compra e venda de caminhões novos e usados
+          </p>
+          <!-- ALTERE AQUI os textos e destinos (href) dos dois botões principais. -->
+          <p>
+            <a href="cadastro-veiculo.html" class="btn btn-primary my-2">Anuncie aqui</a>
+            <a href="portfolio.html" class="btn btn-outline-primary my-2">Nosso portfólio</a>&nbsp
+            <a href="faleConosco.html" class="btn btn-secondary my-2">Fale conosco</a>
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- GALERIA: cartões com imagens, textos e botões. -->
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <div class="card shadow-sm h-100 card-veiculo">
+              <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+              <!-- FOTO 1: coloque o arquivo imagens/foto1.jpg na pasta do projeto. -->
+              <!-- NOVO: a foto real do Volvo está em imagens/volvo-fmx-540.jpg. -->
+              <img src="imagens/foto1.png" class="card-img-top" alt="Volvo FMX MAX 540 com caçamba basculante Rossetti">
+              <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+              <div class="card-body">
+                <!-- NOVO: ALTERE AQUI a categoria e o nome do caminhão. -->
+                <span class="veiculo-categoria">Caminhão basculante</span>
+                <h3 class="h5 mb-0">Volvo FMX MAX 540 8x4</h3>
+                <!-- NOVO: ALTERE AQUI a descrição curta do anúncio. -->
+                <p class="card-text mb-0">Caminhão com caçamba Rossetti para obras, mineração e terraplenagem.</p>
+                <!-- NOVO: ALTERE AQUI os campos da ficha técnica resumida. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> A confirmar</span>
+                  <span><strong>Motor:</strong> Diesel</span>
+                  <span><strong>Potência:</strong> 540 cv*</span>
+                  <span><strong>Tração:</strong> 8x4*</span>
+                  <span><strong>Eixos:</strong> 4</span>
+                  <span><strong>Caçamba:</strong> Rossetti</span>
+                </div>
+                <!-- NOVO: ALTERE AQUI o preço, quando tiver um valor confirmado. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: botão que abre a ficha técnica completa. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalVolvoFMX">Ver detalhes</button>
+                <small class="text-body-secondary">*Configuração e potência a confirmar pelo anúncio/documentação.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 2: coloque o arquivo imagens/foto2.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 2 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 2: substitua imagens/foto2.png pela sua fotografia; atualize também a foto no MODAL 2. -->
+              <img src="imagens/foto2.png" class="card-img-top" alt="Foto do veículo 2; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 2: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 2. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 2</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 2. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 2; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2020</span>
+                  <span><strong>Motor:</strong> V8</span>
+                  <span><strong>Potência:</strong> 2.000 POCOTOS</span>
+                  <span><strong>Tração:</strong> 4X4</span>
+                  <span><strong>Eixos:</strong> TRIZETA</span>
+                  <span><strong>Implemento:</strong> NÃO SE APLICA</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 2: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 2: abre o modalDetalhes2; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes2">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 3: coloque o arquivo imagens/foto3.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 3 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 3: substitua imagens/foto3.png pela sua fotografia; atualize também a foto no MODAL 3. -->
+              <img src="imagens/foto3.png" class="card-img-top" alt="Foto do veículo 3; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 3: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 3. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 3</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 3. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 3; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2024</span>
+                  <span><strong>Motor:</strong> 6 cilindros em linha</span>
+                  <span><strong>Potência:</strong> 540</span>
+                  <span><strong>Tração:</strong> 4X6</span>
+                  <span><strong>Eixos:</strong> Eixos com redução planetária nos cubos</span>
+                  <span><strong>Implemento:</strong> NÃO SE APLICA</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 3: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 3: abre o modalDetalhes3; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes3">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 4: coloque o arquivo imagens/foto4.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 4 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 4: substitua imagens/foto4.png pela sua fotografia; atualize também a foto no MODAL 4. -->
+              <img src="imagens/foto4.png" class="card-img-top" alt="Foto do veículo 4; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 4: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 4. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 4</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 4. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 4; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2002</span>
+                  <span><strong>Motor:</strong> 6 Cilindros em linha</span>
+                  <span><strong>Potência:</strong> 360CV</span>
+                  <span><strong>Tração:</strong> 6x2</span>
+                  <span><strong>Eixos:</strong>	3 eixos 1 tracionado + 1 eixo auxiliar</span>
+                  <span><strong>Implemento:</strong> 5º roda</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 4: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 4: abre o modalDetalhes4; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes4">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 5: coloque o arquivo imagens/foto5.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 5 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 5: substitua imagens/foto5.png pela sua fotografia; atualize também a foto no MODAL 5. -->
+              <img src="imagens/foto5.png" class="card-img-top" alt="Foto do veículo 5; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 5: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 5. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 5</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 5. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 5; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2021</span>
+                  <span><strong>Motor:</strong>	6 cilindros </span>
+                  <span><strong>Potência:</strong> 530 cv</span>
+                  <span><strong>Tração:</strong> 8x4</span>
+                  <span><strong>Eixos:</strong> Traçado Pesado</span>
+                  <span><strong>Implemento:</strong> 5º Roda</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 5: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 5: abre o modalDetalhes5; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes5">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 6: coloque o arquivo imagens/foto6.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 6 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 6: substitua imagens/foto6.png pela sua fotografia; atualize também a foto no MODAL 6. -->
+              <img src="imagens/foto6.png" class="card-img-top" alt="Foto do veículo 6; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 6: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 6. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 6</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 6. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 6; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2008</span>
+                  <span><strong>Motor:</strong> 6 cilindros</span>
+                  <span><strong>Potência:</strong> 400 hp a 605 hp</span>
+                  <span><strong>Tração:</strong> 6x4</span>
+                  <span><strong>Eixos:</strong> dois eixos traseiros tracionados</span>
+                  <span><strong>Implemento:</strong> 5º roda</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 6: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 6: abre o modalDetalhes6; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes6">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 7: coloque o arquivo imagens/foto7.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 7 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 7: substitua imagens/foto7.png pela sua fotografia; atualize também a foto no MODAL 7. -->
+              <img src="imagens/foto7.png" class="card-img-top" alt="Foto do veículo 7; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 7: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 7. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 7</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 7. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 7; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2022</span>
+                  <span><strong>Motor:</strong> 8 cilindros em V, turbodiesel com injeção Common-Rail</span>
+                  <span><strong>Potência:</strong> 330 hp</span>
+                  <span><strong>Tração:</strong> Ford TorqShift HD</span>
+                  <span><strong>Eixos:</strong> Eixo Dianteiro Convertido para Tração</span>
+                  <span><strong>Implemento:</strong> NÃO SE APLICA</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 7: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 7: abre o modalDetalhes7; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes7">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 8: coloque o arquivo imagens/foto8.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 8 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 8: substitua imagens/foto8.png pela sua fotografia; atualize também a foto no MODAL 8. -->
+              <img src="imagens/foto8.png" class="card-img-top" alt="Foto do veículo 8; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 8: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 8. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 8</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 8. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 8; altere os valores abaixo. -->
+                <div class="veiculo-ficha">
+                  <span><strong>Ano:</strong> 2016</span>
+                  <span><strong>Motor:</strong> Mercedes-Benz OM 473 LA</span>
+                  <span><strong>Potência:</strong> 578 cv (580 hp)</span>
+                  <span><strong>Tração:</strong> 8x6 (ou 8x8 sob encomenda)</span>
+                  <span><strong>Eixos:</strong> Mercedes PowerShift 3</span>
+                  <span><strong>Implemento:</strong> NÃO SE APLICA</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 8: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 8: abre o modalDetalhes8; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes8">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+          <div class="col">
+            <!-- CARTÃO: altere a imagem, descrição, botões e tempo abaixo. -->
+            <!-- IMAGEM: SVG já substituído por IMG. Altere o caminho src e o texto alt da foto abaixo. -->
+            <!-- FOTO 9: coloque o arquivo imagens/foto9.jpg na pasta do projeto. -->
+            <!-- TEXTO E BOTÕES DO CARTÃO: edite o <p class="card-text">, View, Edit e 9 mins. -->
+            <!-- NOVO: CARD 9 - preencha os campos com os dados do veículo anunciado. -->
+            <article class="card shadow-sm h-100 card-veiculo">
+              <!-- NOVO: FOTO 9: substitua imagens/foto9.png pela sua fotografia; atualize também a foto no MODAL 9. -->
+              <img src="imagens/foto9.png" class="card-img-top" alt="Foto do veículo 9; substitua pela descrição real">
+              <div class="card-body">
+                <!-- NOVO: CATEGORIA DO VEÍCULO 9: exemplo Caminhão basculante, Cavalo mecânico, Caminhão munck. -->
+                <span class="veiculo-categoria">Categoria do veículo</span>
+                <!-- NOVO: NOME / MARCA / MODELO DO VEÍCULO 9. -->
+                <h3 class="h5 mb-0">Marca e modelo do veículo 9</h3>
+                <!-- NOVO: DESCRIÇÃO CURTA DO VEÍCULO 9. -->
+                <p class="card-text mb-0">Escreva aqui uma breve descrição do veículo, seus diferenciais e sua aplicação.</p>
+                <!-- NOVO: FICHA TÉCNICA RESUMIDA DO VEÍCULO 9; altere os valores abaixo. -->
+                <div class="veiculo-ficha"><h4><a id="curiosidades" href="https://www.dreamsracingtruck.com.br/post/5-curiosidades-impressionantes-sobre-a-copa-truck-e-f%C3%B3rmula-truck" target="_blank">CURIOSIDADES</a></h4><H4>  </H4>
+                  <span><strong>Ano:</strong> 2015</span>
+                  <span><strong>Motor:</strong> 	Volvo D13 / 6 cilindros em linha</span>
+                  <span><strong>Potência:</strong> ~1.000 a 1.200+ cv</span>
+                  <span><strong>Tração:</strong> 4x2</span>
+                  <span><strong>Eixos:</strong> Central-Dianteiro (Recuado)</span>
+                  <span><strong>Implemento:</strong> NÃO SE APLICA</span>
+                </div>
+                <!-- NOVO: PREÇO DO VEÍCULO 9: troque por R$ 000.000,00 quando souber. -->
+                <p class="veiculo-preco">Preço sob consulta</p>
+                <!-- NOVO: BOTÃO DO VEÍCULO 9: abre o modalDetalhes9; mantenha os IDs iguais no botão e no modal. -->
+                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#modalDetalhes9">Ver detalhes</button>
+                <small class="text-body-secondary">Anúncio demonstrativo: preencha as informações reais.</small>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- NOVO: MODAL DO VOLVO. Altere os textos e a imagem para atualizar a ficha técnica completa. -->
+  <div class="modal fade" id="modalVolvoFMX" tabindex="-1" aria-labelledby="tituloModalVolvo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: ALTERE AQUI o título do veículo na janela de detalhes. -->
+          <h2 class="modal-title fs-5" id="tituloModalVolvo">Volvo FMX MAX 540 8x4</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: ALTERE AQUI o caminho da fotografia exibida no modal. -->
+          <img src="imagens/volvo-fmx-540.jpg" class="veiculo-modal-imagem mb-3" alt="Volvo FMX MAX 540 basculante">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: ALTERE AQUI as especificações confirmadas do veículo. -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">Volvo FMX MAX 540</dd>
+            <dt class="col-sm-4">Ano</dt><dd class="col-sm-8">A confirmar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">Diesel</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">540 cv (a confirmar)</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">8x4 (a confirmar)</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">4</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">Caçamba basculante Rossetti</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">Não informada</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A confirmar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <h3 class="h6">Descrição</h3>
+          <p>Veículo pesado destinado ao transporte de materiais a granel, com aplicações em construção civil, mineração e terraplenagem.</p>
+          <p class="small text-body-secondary mb-0">Dados de ano, transmissão, quilometragem e configuração exata precisam ser confirmados. Anúncio demonstrativo.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 2. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes2" tabindex="-1" aria-labelledby="tituloModal2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 2. -->
+          <h2 class="modal-title fs-5" id="tituloModal2">Marca e modelo do veículo 2</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 2. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto2.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 2">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 2: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 2. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 2: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 3. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes3" tabindex="-1" aria-labelledby="tituloModal3" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 3. -->
+          <h2 class="modal-title fs-5" id="tituloModal3">Marca e modelo do veículo 3</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 3. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto3.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 3">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 3: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 3. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 3: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 4. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes4" tabindex="-1" aria-labelledby="tituloModal4" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 4. -->
+          <h2 class="modal-title fs-5" id="tituloModal4">Marca e modelo do veículo 4</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 4. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto4.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 4">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 4: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 4. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 4: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 5. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes5" tabindex="-1" aria-labelledby="tituloModal5" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 5. -->
+          <h2 class="modal-title fs-5" id="tituloModal5">Marca e modelo do veículo 5</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 5. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto5.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 5">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 5: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 5. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 5: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 6. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes6" tabindex="-1" aria-labelledby="tituloModal6" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 6. -->
+          <h2 class="modal-title fs-5" id="tituloModal6">Marca e modelo do veículo 6</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 6. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto6.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 6">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 6: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 6. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 6: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 7. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes7" tabindex="-1" aria-labelledby="tituloModal7" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 7. -->
+          <h2 class="modal-title fs-5" id="tituloModal7">Marca e modelo do veículo 7</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 7. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto7.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 7">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 7: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 7. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 7: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 8. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes8" tabindex="-1" aria-labelledby="tituloModal8" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 8. -->
+          <h2 class="modal-title fs-5" id="tituloModal8">Marca e modelo do veículo 8</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 8. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto8.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 8">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 8: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 8. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 8: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOVO: MODAL DO VEÍCULO 9. Todos os dados abaixo podem ser editados individualmente. -->
+  <div class="modal fade" id="modalDetalhes9" tabindex="-1" aria-labelledby="tituloModal9" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- NOVO: TÍTULO COMPLETO DO VEÍCULO 9. -->
+          <h2 class="modal-title fs-5" id="tituloModal9">Marca e modelo do veículo 9</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- NOVO: FOTO GRANDE DO VEÍCULO 9. Use o mesmo arquivo do card ou outra foto. -->
+          <img src="imagens/foto9.png" class="veiculo-modal-imagem mb-3" alt="Foto detalhada do veículo 9">
+          <h3 class="h6">Ficha técnica</h3>
+          <!-- NOVO: DADOS COMPLETOS DO VEÍCULO 9: preencha cada campo à direita (dentro de dd). -->
+          <dl class="row">
+            <dt class="col-sm-4">Marca / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Ano / modelo</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Combustível</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Motor</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Potência</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Transmissão</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Tração</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Eixos</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Implemento</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Quilometragem</dt><dd class="col-sm-8">A informar</dd>
+            <dt class="col-sm-4">Preço</dt><dd class="col-sm-8">Sob consulta</dd>
+          </dl>
+          <!-- NOVO: DESCRIÇÃO COMPLETA DO VEÍCULO 9. -->
+          <h3 class="h6">Descrição</h3>
+          <p>Escreva aqui as condições do veículo, os equipamentos, o histórico e outras informações relevantes.</p>
+          <!-- NOVO: OBSERVAÇÕES DO VEÍCULO 9: documentação, localização, disponibilidade etc. -->
+          <p class="small text-body-secondary mb-0">Informações pendentes de preenchimento pelo anunciante.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FOOTER: rodapé; altere textos e links abaixo. -->
+  <footer class="text-body-secondary py-5">
+    <div class="container">
+      <p class="float-end mb-1"><a href="#">Back to top</a></p>
+      <p class="mb-1">
+        Album example is &copy; Bootstrap, but please download and customize
+        it for yourself!
+      </p>
+      <p class="mb-0">
+        New to Bootstrap? <a href="/">Visit the homepage</a> or read our
+        <a href="../getting-started/introduction">getting started guide</a>.
+      </p>
+    </div>
+  </footer>
+  <!-- JAVASCRIPT do Bootstrap: necessário para o menu e seletor de tema; confira o caminho. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    class="astro-vvvwv3sm"></script>
+  <!-- SCRIPT DE TEMA: controla os botões Claro, Escuro e Automático. -->
+  <script>
+    const definirTema = (tema) => {
+      const escuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-bs-theme', tema === 'auto' ? (escuro ? 'dark' : 'light') : tema);
+      document.querySelectorAll('[data-bs-theme-value]').forEach(botao => {
+        const ativo = botao.dataset.bsThemeValue === tema;
+        botao.classList.toggle('active', ativo);
+        botao.setAttribute('aria-pressed', String(ativo));
+      });
+    };
+    definirTema('auto');
+    document.querySelectorAll('[data-bs-theme-value]').forEach(botao => {
+      botao.addEventListener('click', () => definirTema(botao.dataset.bsThemeValue));
+    });
+  </script>
+
+  <!-- NOVO: ANÚNCIOS CADASTRADOS NO NAVEGADOR. Não remove os cards originais. -->
+  <script>
+    // Lê os veículos salvos pelo formulário de cadastro (mesma origem do navegador).
+    const anuncios = JSON.parse(localStorage.getItem('truckShoppingAnuncios') || '[]');
+    const galeria = document.querySelector('.album .container .row');
+    const moeda = valor => Number(valor).toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+    const adicionarTexto = (pai, tag, classe, conteudo) => {
+      const elemento = document.createElement(tag);
+      if (classe) elemento.className = classe;
+      elemento.textContent = conteudo; // textContent evita interpretar HTML digitado pelo usuário.
+      pai.appendChild(elemento);
+      return elemento;
+    };
+    anuncios.forEach(anuncio => {
+      const coluna = adicionarTexto(galeria, 'div', 'col', '');
+      const card = adicionarTexto(coluna, 'article', 'card shadow-sm h-100 card-veiculo', '');
+      if (anuncio.foto) {
+        const img = document.createElement('img');
+        img.className = 'card-img-top'; img.src = anuncio.foto;
+        img.alt = 'Foto de ' + anuncio.marca + ' ' + anuncio.modelo;
+        card.appendChild(img);
+      }
+      const corpo = adicionarTexto(card, 'div', 'card-body', '');
+      adicionarTexto(corpo, 'span', 'veiculo-categoria', anuncio.categoria);
+      adicionarTexto(corpo, 'h3', 'h5 mb-0', anuncio.marca + ' ' + anuncio.modelo);
+      adicionarTexto(corpo, 'p', 'card-text mb-0', anuncio.descricao);
+      const ficha = adicionarTexto(corpo, 'div', 'veiculo-ficha', '');
+      [['Ano',anuncio.ano],['KM',Number(anuncio.km).toLocaleString('pt-BR')],['Tração',anuncio.tracao || 'Não informada'],['Cidade',anuncio.cidade + '/' + anuncio.uf]].forEach(([chave,valor]) => adicionarTexto(ficha,'span','',chave + ': ' + valor));
+      adicionarTexto(corpo, 'p', 'veiculo-preco', moeda(anuncio.preco));
+      const botao = adicionarTexto(corpo, 'button', 'btn btn-primary mt-auto', 'Ver detalhes');
+      botao.type = 'button';
+      // EDIÇÃO: este botão abre o formulário preenchido com os dados deste anúncio.
+      const editar = adicionarTexto(corpo, 'a', 'btn btn-outline-secondary', 'Editar anúncio');
+      editar.href = 'cadastro-veiculo.html?editar=' + encodeURIComponent(anuncio.id);
+      // EXCLUSÃO: o botão vermelho solicita confirmação antes de apagar o anúncio.
+      // Apenas anúncios cadastrados pelo formulário podem ser excluídos aqui.
+      const excluir = adicionarTexto(corpo, 'button', 'btn btn-outline-danger', 'Excluir anúncio');
+      excluir.type = 'button';
+      excluir.addEventListener('click', () => {
+        const modalExcluir = document.getElementById('modalExcluirAnuncio');
+        modalExcluir.querySelector('.nome-veiculo-exclusao').textContent = anuncio.marca + ' ' + anuncio.modelo;
+        const confirmar = modalExcluir.querySelector('#confirmarExclusao');
+        // Substitui o botão para não acumular eventos de anúncios diferentes.
+        const novoConfirmar = confirmar.cloneNode(true);
+        confirmar.replaceWith(novoConfirmar);
+        novoConfirmar.addEventListener('click', () => {
+          try {
+            const salvos = JSON.parse(localStorage.getItem('truckShoppingAnuncios') || '[]');
+            const restantes = salvos.filter(item => String(item.id) !== String(anuncio.id));
+            if (restantes.length === salvos.length) throw new Error('Anúncio não encontrado');
+            localStorage.setItem('truckShoppingAnuncios', JSON.stringify(restantes));
+            bootstrap.Modal.getOrCreateInstance(modalExcluir).hide();
+            // Remove o card imediatamente, sem apagar os outros anúncios.
+            coluna.remove();
+          } catch (erro) {
+            alert('Não foi possível excluir o anúncio. Verifique o armazenamento do navegador.');
+          }
+        }, { once: true });
+        bootstrap.Modal.getOrCreateInstance(modalExcluir).show();
+      });
+      botao.addEventListener('click', () => {
+        // Janela simples com as informações completas do anúncio.
+        const modal = document.getElementById('modalAnuncioDinamico');
+        modal.querySelector('.modal-title').textContent = anuncio.marca + ' ' + anuncio.modelo;
+        const detalhes = modal.querySelector('.dados-anuncio');
+        detalhes.replaceChildren();
+        Object.entries({Categoria:anuncio.categoria, Ano:anuncio.ano, Quilometragem:anuncio.km+' km', Combustível:anuncio.combustivel, Câmbio:anuncio.cambio, Tração:anuncio.tracao, Eixos:anuncio.eixos, Potência:anuncio.potencia ? anuncio.potencia+' cv' : 'Não informada', Implemento:anuncio.implemento, Localização:anuncio.cidade+'/'+anuncio.uf, Preço:moeda(anuncio.preco), Descrição:anuncio.descricao, Vendedor:anuncio.vendedor, Telefone:anuncio.telefone}).forEach(([chave,valor]) => {
+          adicionarTexto(detalhes, 'dt', 'col-sm-4', chave);
+          adicionarTexto(detalhes, 'dd', 'col-sm-8', String(valor || 'Não informado'));
+        });
+        bootstrap.Modal.getOrCreateInstance(modal).show();
+      });
+    });
+  </script>
+  <!-- MODAL reutilizável para os novos anúncios cadastrados. -->
+  <div class="modal fade" id="modalAnuncioDinamico" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content">
+      <div class="modal-header"><h2 class="modal-title fs-5"></h2><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+      <div class="modal-body"><dl class="row dados-anuncio"></dl></div>
+    </div></div>
+  </div>
+
+  <!-- EXCLUSÃO: modal Bootstrap de confirmação. O anúncio só é apagado ao confirmar. -->
+  <div class="modal fade" id="modalExcluirAnuncio" tabindex="-1" aria-labelledby="tituloExcluirAnuncio" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="tituloExcluirAnuncio">Excluir anúncio?</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza de que deseja excluir <strong class="nome-veiculo-exclusao"></strong>?
+        <p class="text-danger mt-2 mb-0">Esta ação não pode ser desfeita.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="confirmarExclusao">Sim, excluir anúncio</button>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- FIM DO BODY. -->
+</body>
+
+</html>

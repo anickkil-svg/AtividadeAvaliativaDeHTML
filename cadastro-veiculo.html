@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- ALTERE AQUI o título da aba do navegador. -->
+  <title>Anunciar caminhão | Truck Shopping</title>
+  <!-- BOOTSTRAP: biblioteca de estilos utilizada na página principal. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS PRÓPRIO: ajuste cores, bordas e espaçamentos nesta seção. -->
+  <style>
+    body { background: var(--bs-tertiary-bg); }
+    .form-card { border: 0; border-radius: 16px; }
+    .secao-titulo { border-bottom: 1px solid var(--bs-border-color); padding-bottom: 10px; margin-bottom: 22px; }
+    .preview { width: 180px; height: 125px; object-fit: cover; border-radius: 10px; display: none; }
+  </style>
+</head>
+<body>
+  <!-- HEADER: menu e identidade visual do marketplace. -->
+  <header class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">▣ Truck Shopping</a>
+      <a class="btn btn-outline-light btn-sm" href="index.html">Voltar aos anúncios</a>
+    </div>
+  </header>
+  <!-- MAIN: conteúdo principal e formulário de cadastro. -->
+  <main class="container py-5" style="max-width: 1000px">
+    <div class="mb-4">
+      <h1 class="fw-bold" id="tituloPagina">Anuncie seu caminhão</h1>
+      <p class="text-body-secondary" id="subtituloPagina">Preencha as informações abaixo para criar seu anúncio no Truck Shopping.</p>
+    </div>
+    <div class="card form-card shadow-sm"><div class="card-body p-4 p-md-5">
+      <!-- FORM: todos os campos com required são obrigatórios. -->
+      <form id="formVeiculo" class="row g-3">
+        <div class="col-12"><h2 class="h5 secao-titulo">1. Informações do caminhão</h2></div>
+        <!-- ALTERE AQUI as opções de categoria. -->
+        <div class="col-md-6"><label for="categoria" class="form-label">Categoria *</label><select id="categoria" class="form-select" required><option value="">Selecione</option><option>Cavalo mecânico</option><option>Basculante</option><option>Truck</option><option>Toco</option><option>Munck</option><option>Bitruck</option><option>Outro</option></select></div>
+        <div class="col-md-6"><label for="marca" class="form-label">Marca *</label><select id="marca" class="form-select" required><option value="">Selecione</option><option>Volvo</option><option>Scania</option><option>Mercedes-Benz</option><option>Volkswagen</option><option>DAF</option><option>Iveco</option><option>Ford</option><option>Outra</option></select></div>
+        <div class="col-md-6"><label for="modelo" class="form-label">Modelo *</label><input id="modelo" class="form-control" placeholder="Ex.: FH 540" maxlength="80" required></div>
+        <div class="col-md-3"><label for="ano" class="form-label">Ano *</label><input id="ano" type="number" class="form-control" min="1950" max="2027" placeholder="2022" required></div>
+        <div class="col-md-3"><label for="km" class="form-label">Quilometragem *</label><input id="km" type="number" class="form-control" min="0" placeholder="150000" required></div>
+        <div class="col-md-4"><label for="combustivel" class="form-label">Combustível *</label><select id="combustivel" class="form-select" required><option value="">Selecione</option><option>Diesel</option><option>Elétrico</option><option>Outro</option></select></div>
+        <div class="col-md-4"><label for="cambio" class="form-label">Câmbio *</label><select id="cambio" class="form-select" required><option value="">Selecione</option><option>Manual</option><option>Automatizado</option><option>Automático</option></select></div>
+        <div class="col-md-4"><label for="tracao" class="form-label">Tração</label><select id="tracao" class="form-select"><option value="">Não informada</option><option>4x2</option><option>6x2</option><option>6x4</option><option>8x2</option><option>8x4</option><option>Outro</option></select></div>
+        <div class="col-md-4"><label for="eixos" class="form-label">Quantidade de eixos</label><input id="eixos" type="number" class="form-control" min="2" max="12"></div>
+        <div class="col-md-4"><label for="potencia" class="form-label">Potência (cv)</label><input id="potencia" type="number" class="form-control" min="1"></div>
+        <div class="col-md-4"><label for="implemento" class="form-label">Implemento</label><input id="implemento" class="form-control" placeholder="Ex.: Caçamba Rossetti"></div>
+        <div class="col-12 mt-4"><h2 class="h5 secao-titulo">2. Informações do anúncio</h2></div>
+        <div class="col-md-4"><label for="preco" class="form-label">Preço (R$) *</label><input id="preco" type="number" class="form-control" min="1" step="0.01" placeholder="350000" required></div>
+        <div class="col-md-5"><label for="cidade" class="form-label">Cidade *</label><input id="cidade" class="form-control" placeholder="Ex.: Maringá" required></div>
+        <div class="col-md-3"><label for="uf" class="form-label">UF *</label><input id="uf" class="form-control" maxlength="2" minlength="2" placeholder="PR" pattern="[A-Za-z]{2}" required></div>
+        <div class="col-12"><label for="descricao" class="form-label">Descrição do caminhão *</label><textarea id="descricao" class="form-control" rows="4" maxlength="1500" placeholder="Descreva o estado de conservação, revisões, equipamentos..." required></textarea></div>
+        <!-- FOTO: demonstrativo salva uma imagem pequena no navegador. Na edição, deixar sem selecionar mantém a foto atual. -->
+        <div class="col-12"><label for="foto" class="form-label">Foto principal (JPG, PNG ou WebP)</label><input id="foto" type="file" class="form-control" accept="image/jpeg,image/png,image/webp"><div class="form-text">Para esta versão de demonstração, a foto deve ter até 1 MB.</div><img id="preview" class="preview mt-3" alt="Prévia da foto escolhida"></div>
+        <div class="col-12 mt-4"><h2 class="h5 secao-titulo">3. Dados do vendedor</h2></div>
+        <div class="col-md-6"><label for="vendedor" class="form-label">Nome do vendedor *</label><input id="vendedor" class="form-control" required></div>
+        <div class="col-md-6"><label for="telefone" class="form-label">Telefone / WhatsApp *</label><input id="telefone" type="tel" class="form-control" placeholder="(44) 99999-9999" required></div>
+        <div class="col-12"><div id="mensagem" role="status" aria-live="polite"></div></div>
+        <div class="col-12 d-flex gap-2 justify-content-end"><a href="index.html" class="btn btn-outline-secondary">Cancelar</a><button type="submit" class="btn btn-primary px-4" id="botaoSalvar">Publicar anúncio</button></div>
+      </form>
+    </div></div>
+    <p class="text-body-secondary small mt-3">Projeto demonstrativo: os anúncios ficam salvos apenas neste navegador. Não existe publicação online nem conta de usuário nesta versão.</p>
+  </main>
+  <!-- JAVASCRIPT: lê o formulário, valida a foto e salva o anúncio. -->
+  <script>
+    const form = document.getElementById('formVeiculo');
+    const fotoInput = document.getElementById('foto');
+    const preview = document.getElementById('preview');
+    const mensagem = document.getElementById('mensagem');
+    let fotoBase64 = '';
+    // EDIÇÃO: o parâmetro ?editar=ID identifica o anúncio já cadastrado.
+    const idEdicao = new URLSearchParams(window.location.search).get('editar');
+    const campos = ['categoria','marca','modelo','ano','km','combustivel','cambio','tracao','eixos','potencia','implemento','preco','cidade','uf','descricao','vendedor','telefone'];
+    let anuncioOriginal = null;
+
+    // Ao abrir pelo botão Editar, recupera os dados e preenche o formulário.
+    if (idEdicao !== null) {
+      try {
+        const salvos = JSON.parse(localStorage.getItem('truckShoppingAnuncios') || '[]');
+        anuncioOriginal = salvos.find(item => String(item.id) === idEdicao);
+        if (!anuncioOriginal) {
+          form.hidden = true;
+          mensagem.className = 'alert alert-warning';
+          mensagem.textContent = 'Anúncio não encontrado neste navegador. Volte para a página inicial.';
+          form.before(mensagem);
+        } else {
+          campos.forEach(campo => { document.getElementById(campo).value = anuncioOriginal[campo] ?? ''; });
+          fotoBase64 = anuncioOriginal.foto || '';
+          if (fotoBase64) { preview.src = fotoBase64; preview.style.display = 'block'; }
+          document.getElementById('tituloPagina').textContent = 'Editar anúncio';
+          document.getElementById('subtituloPagina').textContent = 'Atualize os dados do caminhão e salve as alterações.';
+          document.getElementById('botaoSalvar').textContent = 'Salvar alterações';
+          document.title = 'Editar caminhão | Truck Shopping';
+        }
+      } catch (erro) {
+        form.hidden = true;
+        const alerta = document.createElement('div');
+        alerta.className = 'alert alert-danger';
+        alerta.textContent = 'Não foi possível carregar os anúncios salvos.';
+        form.before(alerta);
+      }
+    }
+
+
+    // Atualiza a prévia sempre que o usuário escolher outra imagem.
+    fotoInput.addEventListener('change', () => {
+      const arquivo = fotoInput.files[0];
+      // Sem nova foto, mantém a fotografia anterior durante a edição.
+      if (!arquivo) return;
+      fotoBase64 = '';
+      preview.style.display = 'none';
+      if (!['image/jpeg','image/png','image/webp'].includes(arquivo.type) || arquivo.size > 1024 * 1024) {
+        fotoInput.value = '';
+        mensagem.textContent = 'Escolha uma imagem JPG, PNG ou WebP com até 1 MB.';
+        mensagem.className = 'alert alert-danger';
+        return;
+      }
+      mensagem.textContent = '';
+      mensagem.className = '';
+      const leitor = new FileReader();
+      leitor.onload = () => { fotoBase64 = leitor.result; preview.src = fotoBase64; preview.style.display = 'block'; };
+      leitor.readAsDataURL(arquivo);
+    });
+
+    // Ao clicar em Publicar anúncio, os valores são armazenados no localStorage.
+    form.addEventListener('submit', evento => {
+      evento.preventDefault();
+      if (!form.reportValidity()) return;
+      if (fotoInput.files.length && !fotoBase64) { mensagem.textContent = 'Aguarde o carregamento da foto.'; return; }
+      if (idEdicao !== null && !anuncioOriginal) return;
+      // Na edição, preserva o ID; em um novo anúncio, cria outro ID.
+      const anuncio = { id: anuncioOriginal ? anuncioOriginal.id : Date.now(), foto: fotoBase64 };
+      campos.forEach(campo => anuncio[campo] = document.getElementById(campo).value.trim());
+      anuncio.uf = anuncio.uf.toUpperCase();
+      try {
+        const salvos = JSON.parse(localStorage.getItem('truckShoppingAnuncios') || '[]');
+        if (anuncioOriginal) {
+          // Substitui apenas o anúncio que está sendo editado.
+          const indice = salvos.findIndex(item => String(item.id) === String(anuncioOriginal.id));
+          if (indice < 0) throw new Error('Anúncio não encontrado');
+          salvos[indice] = anuncio;
+        } else {
+          salvos.push(anuncio);
+        }
+        localStorage.setItem('truckShoppingAnuncios', JSON.stringify(salvos));
+        // Retorna para a página inicial, onde o novo card será montado automaticamente.
+        window.location.href = 'index.html';
+      } catch (erro) {
+        mensagem.className = 'alert alert-danger';
+        mensagem.textContent = 'Não foi possível salvar. O armazenamento do navegador pode estar cheio. Tente uma foto menor.';
+      }
+    });
+  </script>
+</body>
+</html>
